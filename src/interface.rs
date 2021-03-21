@@ -81,11 +81,9 @@ pub trait DisplayInterface {
 /// let controller = ssd1675::Interface::new(spi, cs, busy, dc, reset);
 
 #[allow(dead_code)] // Prevent warning about CS being unused
-pub struct Interface<SPI, CS, BUSY, DC, RESET> {
+pub struct Interface<SPI, BUSY, DC, RESET> {
     /// SPI interface
     spi: SPI,
-    /// CS (chip select) for SPI (output)
-    cs: CS,
     /// Active low busy pin (input)
     busy: BUSY,
     /// Data/Command Control Pin (High for data, Low for command) (output)
@@ -94,19 +92,17 @@ pub struct Interface<SPI, CS, BUSY, DC, RESET> {
     reset: RESET,
 }
 
-impl<SPI, CS, BUSY, DC, RESET> Interface<SPI, CS, BUSY, DC, RESET>
+impl<SPI, BUSY, DC, RESET> Interface<SPI, BUSY, DC, RESET>
 where
     SPI: hal::blocking::spi::Write<u8>,
-    CS: hal::digital::v2::OutputPin,
     BUSY: hal::digital::v2::InputPin,
     DC: hal::digital::v2::OutputPin,
     RESET: hal::digital::v2::OutputPin,
 {
     /// Create a new Interface from embedded hal traits.
-    pub fn new(spi: SPI, cs: CS, busy: BUSY, dc: DC, reset: RESET) -> Self {
+    pub fn new(spi: SPI, busy: BUSY, dc: DC, reset: RESET) -> Self {
         Self {
             spi,
-            cs,
             busy,
             dc,
             reset,
@@ -134,11 +130,9 @@ where
     }
 }
 
-impl<SPI, CS, BUSY, DC, RESET> DisplayInterface for Interface<SPI, CS, BUSY, DC, RESET>
+impl<SPI, BUSY, DC, RESET> DisplayInterface for Interface<SPI, BUSY, DC, RESET>
 where
     SPI: hal::blocking::spi::Write<u8>,
-    CS: hal::digital::v2::OutputPin,
-    CS::Error: Debug,
     BUSY: hal::digital::v2::InputPin,
     DC: hal::digital::v2::OutputPin,
     DC::Error: Debug,
