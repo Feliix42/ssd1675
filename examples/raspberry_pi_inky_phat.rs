@@ -63,11 +63,11 @@ fn main() -> Result<(), std::io::Error> {
 
     // https://pinout.xyz/pinout/inky_phat
     // Configure Digital I/O Pins
-    let cs = Pin::new(8); // BCM8
-    cs.export().expect("cs export");
-    while !cs.is_exported() {}
-    cs.set_direction(Direction::Out).expect("CS Direction");
-    cs.set_value(1).expect("CS Value set to 1");
+    //let cs = Pin::new(8); // BCM8
+    //cs.export().expect("cs export");
+    //while !cs.is_exported() {}
+    //cs.set_direction(Direction::Out).expect("CS Direction");
+    //cs.set_value(1).expect("CS Value set to 1");
 
     let busy = Pin::new(17); // BCM17
     busy.export().expect("busy export");
@@ -92,7 +92,7 @@ fn main() -> Result<(), std::io::Error> {
     // Initialise display controller
     let mut delay = Delay {};
 
-    let controller = ssd1675::Interface::new(spi, cs, busy, dc, reset);
+    let controller = ssd1675::Interface::new(spi, busy, dc, reset);
 
     let mut black_buffer = [0u8; ROWS as usize * COLS as usize / 8];
     let mut red_buffer = [0u8; ROWS as usize * COLS as usize / 8];
