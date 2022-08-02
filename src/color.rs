@@ -11,6 +11,8 @@ extern crate embedded_graphics;
 #[cfg(feature = "graphics")]
 use self::embedded_graphics::pixelcolor::raw::RawU8;
 #[cfg(feature = "graphics")]
+use self::embedded_graphics::pixelcolor::{BinaryColor, Rgb888, RgbColor};
+#[cfg(feature = "graphics")]
 use self::embedded_graphics::prelude::*;
 #[cfg(feature = "graphics")]
 impl PixelColor for Color {
@@ -24,6 +26,41 @@ impl From<u8> for Color {
             1 => Color::White,
             2 => Color::Red,
             _ => panic!("invalid color value"),
+        }
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl From<BinaryColor> for Color {
+    fn from(value: BinaryColor) -> Self {
+        match value {
+            BinaryColor::On => Color::Black,
+            BinaryColor::Off => Color::White,
+        }
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl From<Rgb888> for Color {
+    fn from(value: Rgb888) -> Self {
+        // NOTE(feliix42): This is admittedly a very simplistic approximation, it'd be more
+        // accurate to map the colors accordingly, but since that's an injective mapping anyways,
+        // why not keep it simple for now.
+        match value {
+            Rgb888::WHITE => Color::White,
+            Rgb888::BLACK => Color::Black,
+            _ => Color::Red,
+        }
+    }
+}
+
+#[cfg(feature = "graphics")]
+impl Into<Rgb888> for Color {
+    fn into(self) -> Rgb888 {
+        match self {
+            Color::White => Rgb888::WHITE,
+            Color::Black => Rgb888::BLACK,
+            Color::Red => Rgb888::RED,
         }
     }
 }
