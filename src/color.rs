@@ -30,6 +30,17 @@ impl From<u8> for Color {
     }
 }
 
+impl From<RawU8> for Color {
+    fn from(value: RawU8) -> Self {
+        // NOTE(feliix42): This is a very ... liberal mapping of colors and may be refined at some
+        // point
+        match value.into_inner() {
+            0 => Color::Black,
+            _ => Color::White,
+        }   
+    }
+}
+
 #[cfg(feature = "graphics")]
 impl From<BinaryColor> for Color {
     fn from(value: BinaryColor) -> Self {
