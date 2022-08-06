@@ -1,7 +1,11 @@
+use core::default::Default;
+
+
 /// Represents the state of a pixel in the display
-#[derive(Clone, Copy, PartialEq, Debug)]
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub enum Color {
     Black,
+    #[default]
     White,
     Red,
 }
@@ -37,7 +41,7 @@ impl From<RawU8> for Color {
         match value.into_inner() {
             0 => Color::Black,
             _ => Color::White,
-        }   
+        }
     }
 }
 
