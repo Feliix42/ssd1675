@@ -30,7 +30,9 @@ version = "0.3.2"
 
 [dependencies.profont]
 optional = true
-version = "0.6"
+#version = "0.6"
+git = "https://github.com/sambenko/profont"
+branch = "embedded-graphics-0.8.0-fixes"
 
 [features]
 default = ["graphics"]
